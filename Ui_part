@@ -1,0 +1,52 @@
+1) Round textfiled (https://prnt.sc/R_Ayo5emtPWu)
+
+Container(
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      cursorColor: Colors.black,
+                      textAlign: TextAlign.start,
+                      controller: Orderid,
+                      cursorHeight: Responsive.height(3, context),
+                      style: TextStyle(
+                         fontFamily: 'GothamRoundedMedium',
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05),
+                              decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                hintText: "Enter Order ID",
+                                hintStyle: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width * 0.04),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.black,
+                                        width: Responsive.width(0.5, context)),
+                                    borderRadius: BorderRadius.circular(
+                                        Responsive.width(2, context))),
+                                errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.black,
+                                        width: Responsive.width(0.5, context)),
+                                    borderRadius: BorderRadius.circular(
+                                        Responsive.width(2, context))),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      Responsive.width(2, context)),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: Responsive.width(0.5, context),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      Responsive.width(2, context)),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: Responsive.width(0.5, context),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.all(16),
+                              ),
+                            ),
+                          ),
