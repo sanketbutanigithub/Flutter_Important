@@ -1,0 +1,263 @@
+import 'dart:math';
+
+import 'package:deliveryapplication/Pages/LoginScreen.dart';
+import 'package:deliveryapplication/Utils/ColorScheme.dart';
+import 'package:deliveryapplication/Utils/Responsive.dart';
+import 'package:flutter/material.dart';
+
+class Introscreen extends StatefulWidget {
+  const Introscreen({Key? key}) : super(key: key);
+
+  @override
+  _IntroscreenState createState() => _IntroscreenState();
+}
+
+class _IntroscreenState extends State<Introscreen> {
+  PageController pagecontroller = PageController();
+
+  List<Widget> introtitle = <Widget>[
+    new Center(
+        child: new Pages(
+            maintext: "On time pickup",
+            subtext:
+                "We give you all information about client so you can pick up on time",
+            imagepath: "assets/intor1.png")),
+    new Center(
+        child: new Pages(
+            maintext: "Accept and decline",
+            subtext:
+                "We Provide you a facility to choose you want to accept client request or not",
+            imagepath: "assets/intro2.png")),
+    new Center(
+        child: new Pages(
+            maintext: "Easy to use",
+            subtext:
+                "We guarantee you can easily understand the app and accept orders",
+            imagepath: "assets/intro3.png")),
+  ];
+
+  int currentindex=0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ClipPath(
+                clipper: CurvedBottomClipper(),
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter,
+                            colors: [apptheame, apptheamelight])),
+                    height: Responsive.height(80, context),
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            left: Responsive.width(5, context),
+                            right: Responsive.width(5, context)),
+                        child: PageView(
+                          children: introtitle,
+                          scrollDirection: Axis.horizontal,
+                          controller: pagecontroller,
+                          onPageChanged: (num) {
+                            setState(() {
+                              currentindex = num;
+                            });
+                          },
+                        ))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: Responsive.height(5, context)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      child: Row(children: [
+                        SizedBox(
+                          width: Responsive.width(2, context),
+                        ),
+                        Text(
+                          "Skip",
+                          style: TextStyle(
+                            fontFamily: "popinmedium",
+                            color: Colors.black54,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                          ),
+                        ),
+                      ]),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                      },
+                    ),
+                    Row(
+                      children: [
+                        for (int i = 0; i < introtitle.length; i++)
+                          if (i == currentindex)
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  Responsive.height(0.5, context)),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [Slidedots(true)]),
+                            )
+                          else
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  Responsive.height(0.5, context)),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [Slidedots(false)]),
+                            ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        if(currentindex<introtitle.length-1){
+                          currentindex++;
+                          pagecontroller.animateToPage(currentindex,   duration: Duration(milliseconds: 300),
+                            curve: Curves.linear,);
+                          setState(() {
+
+                          });
+                        }
+                        else{
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                        }
+                      },
+                      child: Row(children: [
+                        Text(
+                          "Next",
+                          style: TextStyle(
+                            fontFamily: "popinmedium",
+                            color: apptheame,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_right_alt_sharp,
+                          size: MediaQuery.of(context).size.width * 0.06,
+                          color: apptheame,
+                        ),
+                        SizedBox(
+                          width: Responsive.width(2, context),
+                        ),
+                      ]),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Pages extends StatelessWidget {
+  final maintext, subtext, imagepath;
+
+  Pages({this.maintext, this.subtext, this.imagepath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Image.asset(
+          "assets/logo.png",
+          fit: BoxFit.fill,
+          height: Responsive.height(15, context),
+          width: Responsive.width(35, context),
+        ),
+        Text(
+          maintext,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: MediaQuery.of(context).size.width * 0.08,
+              fontFamily: "popinbold",
+              fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: Responsive.height(2, context),
+        ),
+        Text(
+          subtext,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: MediaQuery.of(context).size.width * 0.04,
+              fontFamily: "popinbold",
+              fontWeight: FontWeight.bold),
+        ),
+        Image.asset(
+          imagepath,
+          fit: BoxFit.fill,
+          height: Responsive.height(50, context),
+          width: Responsive.width(90, context),
+        ),
+      ],
+    );
+  }
+}
+
+class Slidedots extends StatelessWidget {
+  final isactive;
+
+  Slidedots(this.isactive);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 120),
+      height: Responsive.height(0.5, context),
+      width: Responsive.width(8, context),
+      decoration: BoxDecoration(
+        color: isactive ? apptheame : Colors.black38,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+    );
+  }
+}
+
+class CurvedBottomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    // I've taken approximate height of curved part of view
+    // Change it if you have exact spec for it
+    final roundingHeight = size.height * 3 / 12;
+
+    // this is top part of path, rectangle without any rounding
+    final filledRectangle =
+        Rect.fromLTRB(0, 0, size.width, size.height - roundingHeight);
+
+    // this is rectangle that will be used to draw arc
+    // arc is drawn from center of this rectangle, so it's height has to be twice roundingHeight
+    // also I made it to go 5 units out of screen on left and right, so curve will have some incline there
+    final roundingRectangle = Rect.fromLTRB(
+        -5, size.height - roundingHeight * 2, size.width + 1, size.height);
+
+    final path = Path();
+    path.addRect(filledRectangle);
+
+    // so as I wrote before: arc is drawn from center of roundingRectangle
+    // 2nd and 3rd arguments are angles from center to arc start and end points
+    // 4th argument is set to true to move path to rectangle center, so we don't have to move it manually
+    path.arcTo(roundingRectangle, pi, -pi, true);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // returning fixed 'true' value here for simplicity, it's not the part of actual question, please read docs if you want to dig into it
+    // basically that means that clipping will be redrawn on any changes
+    return true;
+  }
+}
